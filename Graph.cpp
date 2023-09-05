@@ -29,7 +29,7 @@ class Node {
 };
 //if 不提供某個參數(i,p,k)的值，則將使用預設值，例如，如果只提供了i的值，而未提供p和k，則p將被設為-1，k將被設為MAXN。
 
-class disjoint_set {
+class disjoint_set {           //不相交集合數據結構的基本功能, 包括初始化、查找和合併操作
     public :
         struct n {
             int parent;
@@ -46,12 +46,12 @@ class disjoint_set {
                 sset[i].rank = 0;
             }
         }
-        int find (int u) {
+        int find (int u) {       //查找操作
             if (u != sset[u].parent) 
                 sset[u].parent = find(sset[u].parent);
             return sset[u].parent;
         }
-        void _union (int u, int v) {
+        void _union (int u, int v) { //合併操作,根據元素所屬集合的rank（深度）來優化
             int u_set = find(u);
             int v_set = find(v);
             if (sset[u_set].rank < sset[v_set].rank) {
@@ -64,7 +64,8 @@ class disjoint_set {
             }
         }
 };
-
+/*如果u_set的深度< v_set，則將u_set的根節點的parent設為v_set的根節點，or v_set的深度< u_set，則將v_set的
+根節點的parent設為u_set的根節點，如果它們的深度相等，則選擇一個作為新的根節點，並將另一個的深度增加一。*/
 class edge {
     public :
         int weight;
