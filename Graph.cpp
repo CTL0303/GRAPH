@@ -66,36 +66,39 @@ class disjoint_set {           //不相交集合數據結構的基本功能, 包
 };
 /*如果u_set的深度< v_set，則將u_set的根節點的parent設為v_set的根節點，or v_set的深度< u_set，則將v_set的
 根節點的parent設為u_set的根節點，如果它們的深度相等，則選擇一個作為新的根節點，並將另一個的深度增加一。*/
+
 class edge {
     public :
         int weight;
-        int v1;
+        int v1; //兩個頂點v1和v2
         int v2;
 
-        edge (int w, int a1, int a2) {
+        edge (int w, int a1, int a2) { 
             weight = w;
             v1 = a1;
             v2 = a2;
-        }
+        }        //edge類別的構造函數（constructor）,用w a1 a2來初始化edge物件的權重（weight）、v1和v2成員變數。
         edge () {
             weight = MAXN;
             v1 = -1;
             v2 = -1;
-        }
+        }       //當不提供任何參數時，將調用這個函數，它將weight初始化為MAXN，v1和v2初始化為-1
         bool operator<(const edge& rhs) {
             return this->weight < rhs.weight;
-        }
+        }     //排序, 比較邊的權重
 };
+//edge表示圖的邊，它可以存儲邊的權重以及相關的頂點信息
 
 class Graph {
     private :
-        int **graph;
+        int **graph;     //指向二維整數陣列的指針，用於表示圖的鄰接矩陣
         int vertex;
-        vector<bool> visited;
+        vector<bool> visited; //visited的布林向量，用於跟蹤圖中的頂點是否已被訪問過
         Node *node;
     public :
         Graph (int total) {
-            vertex = total;
+            vertex = total;  //表示圖中的總頂點數量
+            //動態分配了一個vertex x vertex大小的二維整數陣列，這個陣列用於表示圖的鄰接矩陣
             graph = new int* [vertex];  
             for (int i = 0; i < vertex; ++i) {
                 graph[i] = (int *)new int* [vertex];
