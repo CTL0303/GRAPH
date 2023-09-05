@@ -317,12 +317,12 @@ class Graph {
             else if (method == BELLMAN) bellman(start);
             else if (method == FLOYD) floyd(start);
         }
-        void dijkstra (int start) {
+        void dijkstra (int start) { //最短路徑
             vector<int > cost(vertex);
             fill(cost.begin(), cost.end(), MAXN);
             vector<bool > gone(vertex);
             fill(gone.begin(), gone.end(), false);
-            cost[start] = 0;
+            cost[start] = 0; //設置起始節點的最短路徑成本為0
 
             for (int i = 0; i < vertex;++i) {
                 // find the minmum cost of unjudge node
