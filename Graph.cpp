@@ -154,7 +154,7 @@ class Graph {
                 if (!visited[top]) {
                     // visit top
                     cout << (char)(top+'A') << "-> ";
-                    visited[top] = true;
+                    visited[top] = true; //將當前節點標記為已訪問。
                     // push the adjecent node into the stack
                     for (int i = vertex-1; i >= 0; --i) {
                         if (graph[top][i] != MAXN && visited[i] == false) {
@@ -172,7 +172,8 @@ class Graph {
             
             queue<int > q;
             q.push(0);
-            while (!q.empty()) {
+            //while 當佇列不為空時，表示還有待訪問的節點，就繼續執行下去。
+            while (!q.empty()) { 
                 int top = q.front();
                 q.pop();
                 if (!done[top]) { 
@@ -187,7 +188,7 @@ class Graph {
             }
             cout << endl;
         }
-        void spanning_tree (int method) {
+        void spanning_tree (int method) { //三種算法
             if (method == PRIM) prim();
             else if (method == KRUSAL) krusal();
             else if (method == SOLLIN) sollin();
@@ -203,7 +204,7 @@ class Graph {
             }
             node[vertex-1].key = 0;
             
-            // prim
+            // prim, 不斷選擇具有最小權重的邊, 逐步擴展最小生成樹的節點集合
            for (int i = 0; i < vertex; ++i) {
                 // find the min key node to deal 
                 int min = MAXN;
@@ -214,7 +215,7 @@ class Graph {
                         min_index = j;
                     }
                 }
-                gone[min_index] = true;
+                gone[min_index] = true; //標記選擇的目標節點為已包含在最小生成樹中。
                 // update the near node's key
                 for (int j = 0; j < vertex; ++j) {
                     if (graph[min_index][j] != MAXN &&
@@ -230,7 +231,7 @@ class Graph {
             for (int i = 0; i < vertex; ++i) {
                 cout << (char)(node[i].parent + 'A') << " --- " << (char)(node[i].index + 'A') << endl;
             }
-            
+            //實現了Prim算法的核心邏輯，通過不斷選擇最小權重的邊和更新節點的 key 值，來計算最小生成樹並輸出最終的結果
 
         }
         void krusal() {
@@ -243,7 +244,8 @@ class Graph {
                 }
             }
             sort(sorted.begin(), sorted.end());
-            disjoint_set ans(vertex);
+            disjoint_set ans(vertex); 
+            //用於維護最小生成樹的連通性。初始化時，每個節點都被視為一個單獨的連通分量
             vector<edge > ans_edge;
 
             // for each edge
@@ -258,17 +260,20 @@ class Graph {
                 cout << (char)(ans_edge[i].v1 + 'A') << " --- " << (char)(ans_edge[i].v2+'A') << endl;
             }
         }
+        /*Kruskal 算法的一部分，它將所有的邊按權重排序，然後遍歷這些邊，逐步將具有最小權重的邊添加到最小生成樹中，
+        同時使用 disjoint_set 來維護連通性。最終，ans_edge 將包含最小生成樹的所有邊。*/
+
 
         void sollin() {
-            vector<edge > cheap(vertex);
+            vector<edge > cheap(vertex); //創建了一個向量 cheap，用於存儲每個連通分量中的最小權重邊。
             disjoint_set ans(vertex);
-            int num_component = vertex;
+            int num_component = vertex; //因為每個節點都是一個單獨的連通分量。
             vector<edge > ans_edge;
 
             while (num_component > 1) {
-                // min cost
+                // min cost,當 num_component 減小到1時，表示所有節點都已經連通，最小生成樹構建完成。
                 for (int i = 0; i < vertex; ++i) {
-                    cheap[i] = edge(MAXN, i, i); // no cheap
+                    cheap[i] = edge(MAXN, i, i); // 表示沒有找到便宜的邊
                 }
                 // update cheap
                 for (int i = 0; i < vertex; ++i) {
@@ -300,12 +305,13 @@ class Graph {
                 }
             
             }
-
+            //遍歷 ans_edge 向量，輸出最小生成樹的所有邊。
             for (int i = 0; i < ans_edge.size(); ++i) {
                 cout << (char)(ans_edge[i].v1 + 'A') << " --- " << (char)(ans_edge[i].v2+'A') << endl;
             }
         }
-
+            /*索林算法的核心邏輯，通過不斷選擇每個連通分量的最小權重邊來構建最小生成樹。該算法在每個迭代步驟中更新
+             cheap 向量，以確保每個連通分量中的最小權重邊都被考慮*/
         void single_source_shortest_path (int method, int start) {
             if (method == DIJKSTRA) dijkstra(start);
             else if (method == BELLMAN) bellman(start);
