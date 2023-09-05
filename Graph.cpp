@@ -98,6 +98,7 @@ class Graph {
     public :
         Graph (int total) {
             vertex = total;  //表示圖中的總頂點數量
+            
             //動態分配了一個vertex x vertex大小的二維整數陣列，這個陣列用於表示圖的鄰接矩陣
             graph = new int* [vertex];  
             for (int i = 0; i < vertex; ++i) {
@@ -106,35 +107,36 @@ class Graph {
             // initial not connected
             for (int i = 0; i < vertex; ++i) {
                 for (int j = 0; j < vertex; ++j) {
-                    if (i == j) graph[i][j] = 0;
-                    else graph[i][j] = MAXN;
+                    if (i == j) graph[i][j] = 0; //處理對角線元素，值設為0，表示頂點到自身的距離是0。
+                    else graph[i][j] = MAXN; //非對角線元素，值初始化為 MAXN
                 }
             }
-            node = new Node [vertex];
-            visited.resize(vertex, false);
+            node = new Node [vertex]; //存儲有關每個頂點的其他信息
+            visited.resize(vertex, false); /*將 visited 向量的大小調整為 vertex，並將所有元素
+            初始化為 false, 表示一開始所有的頂點都未被訪問過*/
         }
         void build () {
             int total_path;
             cin >> total_path;
             for (int i = 0; i < total_path; ++i) {
-                int from, to;
+                int from, to; //起始頂點（from）和終止頂點（to）。
                 cin >> from >> to ;
                 cin >> graph[from][to];
-                graph[to][from] = graph[from][to];
+                graph[to][from] = graph[from][to]; //確保在無向圖中兩個相鄰的頂點之間的邊具有相同的權重。
             }
         }
-        void dfs () {
+        void dfs () { //比較兩種不同的實現方式，並輸出它們的結果
             cout << "recursive : ";
             dfs_recursive(0);
             cout << endl;
             /* --------------------------*/
             fill(visited.begin(), visited.end(), false);
             cout << "nonrecursive : ";
-            dfs_nonrecursive();
+            dfs_nonrecursive(); //使用堆疊（stack）而不是遞迴來實現深度優先搜索。
             cout << endl;
         }
         void dfs_recursive(int index) {
-            visited[index] = true;
+            visited[index] = true; //表示當前節點已被訪問過 
             cout << (char)(index+'A') << "-> ";
             for (int i = 0; i < vertex; ++i) {
                 if (graph[index][i] != MAXN && visited[i] == false) {
