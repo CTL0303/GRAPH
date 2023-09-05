@@ -1,4 +1,4 @@
-#20230905_GRAPH practice
+//20230905_GRAPH practice
 #define DEBUG
 #define MAXN 1e9
 #include <bits/stdc++.h>
@@ -27,6 +27,8 @@ class Node {
             key = k;
         }
 };
+//if 不提供某個參數(i,p,k)的值，則將使用預設值，例如，如果只提供了i的值，而未提供p和k，則p將被設為-1，k將被設為MAXN。
+
 class disjoint_set {
     public :
         struct n {
