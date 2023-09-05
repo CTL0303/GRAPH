@@ -137,10 +137,10 @@ class Graph {
         }
         void dfs_recursive(int index) {
             visited[index] = true; //表示當前節點已被訪問過 
-            cout << (char)(index+'A') << "-> ";
+            cout << (char)(index+'A') << "-> "; //根據 index 轉換成對應的字母。
             for (int i = 0; i < vertex; ++i) {
                 if (graph[index][i] != MAXN && visited[i] == false) {
-                    dfs_recursive(i);
+                    dfs_recursive(i); //從節點 i 開始繼續 DFS 遍歷。核心部分
                 }
             }
         }
@@ -148,9 +148,9 @@ class Graph {
             // O(n^2)
             stack<int > buffer;
             buffer.push(0);
-            while (!buffer.empty()) {
-                int top = buffer.top();
-                buffer.pop();
+            while (!buffer.empty()) { // while 迴圈，當堆疊不為空時，表示還有待訪問的節點，就繼續執行下去。
+                int top = buffer.top(); //獲取堆疊的頂部元素，即當前待訪問的節點的索引。
+                buffer.pop(); //將堆疊的頂部元素移除，表示當前節點已經被訪問過。
                 if (!visited[top]) {
                     // visit top
                     cout << (char)(top+'A') << "-> ";
